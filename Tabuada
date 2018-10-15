@@ -1,0 +1,169 @@
+//
+
+//  ViewController.h
+
+//  Desafio MultiProcessamento
+
+//
+
+//  Created by Sábado on 18/10/14.
+
+//  Copyright (c) 2014 RUI TOLEDO. All rights reserved.
+
+//
+
+ 
+
+#import <UIKit/UIKit.h>
+
+ 
+
+@interface ViewController : UIViewController <UITextFieldDelegate>
+
+ 
+
+ 
+
+@property (weak, nonatomic) IBOutletUITextField *textFieldNumero;
+
+ 
+
+@property (weak, nonatomic) IBOutletUITextView *textViewResultado;
+
+ 
+
+- (IBAction)botaoInicio:(UIButton *)sender;
+
+ 
+
+@end
+
+ 
+
+//
+
+//  ViewController.m
+
+//  Desafio MultiProcessamento
+
+//
+
+//  Created by Sábado on 18/10/14.
+
+//  Copyright (c) 2014 RUI TOLEDO. All rights reserved.
+
+//
+
+ 
+
+#import "ViewController.h"
+
+ 
+
+@interfaceViewController ()
+
+ 
+
+@end
+
+ 
+
+@implementation ViewController
+
+ 
+
+- (void)viewDidLoad
+
+{
+
+    [superviewDidLoad];
+
+// Do any additional setup after loading the view, typically from a nib.
+
+}
+
+ 
+
+- (void)didReceiveMemoryWarning
+
+{
+
+    [superdidReceiveMemoryWarning];
+
+    // Dispose of any resources that can be recreated.
+
+}
+
+ 
+
+- (IBAction)botaoInicio:(UIButton *)sender
+
+{
+
+    [self.textFieldNumeroresignFirstResponder];
+
+    
+
+    if (self.textFieldNumero.text.length ==0)
+
+    {
+
+        UIAlertView *alerta = [[UIAlertViewalloc]initWithTitle:@"Alerta"message:@"Digite um valor"delegate:nilcancelButtonTitle:nilotherButtonTitles:@"Ok", nil];
+
+        [alerta show];
+
+    }else {
+
+    
+
+    int t = [self.textFieldNumero.text intValue];
+
+    
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+
+                   {
+
+                       
+
+            for (int i=1; i<=10; i++)
+
+            {
+
+                dispatch_async(dispatch_get_main_queue(), ^
+
+                    {
+
+                    self.textViewResultado.text=[NSString stringWithFormat:@"%@%i x  %i = %i\n",self.textViewResultado.text, t, i, i*t];
+
+                    }
+
+                                );
+
+                
+
+                [NSThread sleepForTimeInterval:1.0];
+
+            }
+
+                   }
+
+                   );
+
+    
+
+    
+
+}
+
+ 
+
+}
+
+ 
+
+ 
+
+ 
+
+@end
